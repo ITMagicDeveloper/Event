@@ -70,9 +70,47 @@ namespace EventDemo
         /// </summary>
         public void BoilWater()
         {
+            for (int i = 0; i < 100; i++)
+            {
+                temperature = i;
 
+                if (temperature > 95)
+                {
+                    //建立BoliedEventArgs 对象。
+                    BoiledEventArgs e = new BoiledEventArgs(temperature);
+
+                    // 调用 OnBolied方法
+                    OnBoiled(e);
+                }
+            }
         }
     }
 
-    
+    class Alarm
+    {
+        public void MakeAlert(object sender, Heater.BoiledEventArgs e)
+        {
+            Heater heater = (Heater) sender;
+
+            //访问 sender 中的公共字段
+            Console.WriteLine("Alarm：{0} - {1}: ", heater.Area, heater.Type);
+            Console.WriteLine("Alarm: 嘀嘀嘀，水已经 {0} 度了：", e.temperature);
+            Console.WriteLine();
+        }
+    }
+
+    class Display
+    {
+        public static void ShowMsg(Object sender, Heater.BoiledEventArgs e)
+        {
+            //静态方法
+            Heater heater = (Heater)sender;
+
+            Console.WriteLine("Display：{0} - {1}: ", heater.Area, heater.Type);
+
+            Console.WriteLine("Display：水快烧开了，当前温度：{0}度。", e.temperature);
+
+            Console.WriteLine();
+        }
+    }
 }
