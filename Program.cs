@@ -8,14 +8,77 @@ namespace EventDemo
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            
+            //Heater heater = new Heater();
+            //Alarm alarm = new Alarm();
+
+            //heater.Boiled += alarm.MakeAlert;
+
+            //heater.Boiled += (new Alarm()).MakeAlert;
+
+            //heater.Boiled += new Heater.BoiledEventHandler(alarm.MakeAlert);
+
+            //heater.Boiled += Display.ShowMsg;
+
+            //heater.BoilWater();
+
+            Test test = new Test();
+            A a = new A();
+            B b = new B()
+            {
+                Num = 100
+            };
+            C c = new C()
+            {
+                str = "CCC"
+            };
+
+            test.AddEvent(a.Back);
+
+            test.Start(c);
 
             Console.Read();
         }
+    }
+
+    class Test
+    {
+        public delegate void BoiledEventHandler(object sender);
+
+        public event BoiledEventHandler Boiled;
+
+        public void AddEvent(BoiledEventHandler e)
+        {
+            Boiled += e;
+        }
+
+        public void Start(object obj)
+        {
+            Boiled?.Invoke(obj);
+        }
+    }
+
+    class A
+    {
+        public void Back(object obj)
+        {
+            B b = obj as B;
+
+            Console.WriteLine(b?.Num);
+        }
+    }
+
+    class C
+    {
+        public string str;
+    }
 
 
+    class B
+    {
+        public int Num;
     }
     
     /// <summary>
