@@ -17,4 +17,62 @@ namespace EventDemo
 
 
     }
+    
+    /// <summary>
+    /// 热水器
+    /// </summary>
+    class Heater
+    {
+        private int temperature;
+
+        public string Type = "RealFire 001";
+
+        /// <summary>
+        /// 添加型号作为演示
+        /// </summary>
+        public string Area = "China Xian";
+
+        /// <summary>
+        /// 声明委托
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public delegate void BoiledEventHandler(Object sender, BoiledEventArgs e);
+
+        public event BoiledEventHandler Boiled;
+
+        /// <summary>
+        /// 定义BoiledEventArgs类，传递给Observer所感兴趣的信息
+        /// </summary>
+        public class BoiledEventArgs : EventArgs
+        {
+            public readonly int temperature;
+
+            public BoiledEventArgs(int _temperature)
+            {
+                temperature = _temperature;
+            }
+        }
+
+        /// <summary>
+        /// 可以供继承自 Heater 的类重写，以便继承类拒绝其他对象对它的监视
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnBoiled(BoiledEventArgs e)
+        {
+            // 如果有对象注册
+            Boiled?.Invoke(this, e);
+            // 调用所有注册对象的方法
+        }
+
+        /// <summary>
+        /// 烧水
+        /// </summary>
+        public void BoilWater()
+        {
+
+        }
+    }
+
+    
 }
